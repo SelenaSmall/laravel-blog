@@ -4,7 +4,6 @@
 
 	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Http\Request;
-	use App\User;
 	use App\Articles;
 	use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -12,6 +11,9 @@
 
 		use AuthenticatesUsers;
 
+		/**
+		 * Construct
+		 */
 		public function __construct() {
 			$this->middleware('guest')->only('');
 		}
@@ -19,10 +21,9 @@
 		/**
 		 * Display a index of articles
 		 *
-		 * @return \Illuminate\View\View
+		 * @return	\Illuminate\View\View
 		 */
 		public function index() {
-
 			$articles = Articles::paginate(5);
 
 			return view('articles.index', compact('articles'));
@@ -31,11 +32,10 @@
 		/**
 		 * Show an individual article
 		 *
-		 * @param $id
-		 * @return \Illuminate\View\View
+		 * @param 	int $id
+		 * @return	\Illuminate\View\View
 		 */
 		public function show($id) {
-
 			$article = Articles::findOrFail($id);
 
 			return view('articles.show', compact('article'));
@@ -54,11 +54,10 @@
 		/**
 		 * Store a new article instance
 		 *
-		 * @param  Request  $request
-		 * @return \Illuminate\View\View
+		 * @param 	 Request $request
+		 * @return 	\Illuminate\View\View
 		 */
 		public function store(Request $request) {
-
 			$this->validate($request, [
 				'title'     => 'required|max:255',
 				'body'  => 'required|max:255'
@@ -76,8 +75,8 @@
 		/**
 		 * Show the form for editing the specified article
 		 *
-		 * @param  Articles $article
-		 * @return \Illuminate\View\View
+		 * @param  	Articles $article
+		 * @return 	\Illuminate\View\View
 		 */
 		public function edit(Articles $article) {
 
@@ -87,15 +86,16 @@
 		/**
 		 * Update the specified articles in storage.
 		 *
-		 * @param Request $request
-		 * @return \Illuminate\View\View
+		 * @param 	Request $request
+		 * @param 	Articles $article
+		 * @return 	\Illuminate\View\View
 		 */
 		public function update(Request $request, Articles $article) {
-
 			$this->validate($request, [
 				'title' => 'required|max:255',
 				'body'	=> 'required|max:255',
 			]);
+
 			$article->update($request->all());
 
 			return back()->with('success', 'Article info updated successfully.');
@@ -104,8 +104,8 @@
 		/**
 		 * Remove the specified articles from storage.
 		 *
-		 * @param Articles $article
-		 * @return \Illuminate\View\View
+		 * @param 	Articles $article
+		 * @return 	\Illuminate\View\View
 		 */
 		public function destroy(Articles $article) {
 			$article->delete();
